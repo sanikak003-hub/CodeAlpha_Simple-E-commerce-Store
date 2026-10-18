@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Order placed | Simple Store{% endblock %}
+{% block content %}
+<div class="success-panel">
+  <div class="success-icon">✓</div>
+  <p class="eyebrow">ORDER CONFIRMED</p>
+  <h1>Thank you for your order!</h1>
+  <p>Your order number is <strong>#{{ order.id }}</strong>.</p>
+  <p>Total: <strong>₹{{ order.total }}</strong></p>
+  <p class="muted">This demo does not collect payments. Your order has been saved.</p>
+  <a class="button" href="{% url 'orders' %}">View my orders</a>
+  <a class="text-link" href="{% url 'product_list' %}">Continue shopping</a>
+</div>
+{% endblock %}

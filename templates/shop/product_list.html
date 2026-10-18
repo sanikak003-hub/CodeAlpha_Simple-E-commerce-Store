@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Shop | Simple Store{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">EVERYDAY ESSENTIALS</p>
+  <h1>Find something you love.</h1>
+  <p>Browse our featured products and add your favourites to the cart.</p>
+</section>
+<h2>Products</h2>
+<div class="product-grid">
+  {% for product in products %}
+    <article class="product-card">
+      {% if product.image_url %}<img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
+      {% else %}<div class="image-placeholder">No image</div>{% endif %}
+      <div class="product-info">
+        <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
+        <p class="price">₹{{ product.price }}</p>
+        <p class="muted">{{ product.description|truncatewords:14 }}</p>
+        <a class="button secondary" href="{% url 'product_detail' product.id %}">View details</a>
+        <form method="post" action="{% url 'add_to_cart' product.id %}">
+          {% csrf_token %}<button class="button" type="submit" {% if product.stock == 0 %}disabled{% endif %}>{% if product.stock == 0 %}Out of stock{% else %}Add to cart{% endif %}</button>
+        </form>
+      </div>
+    </article>
+  {% empty %}
+    <div class="empty-state"><h3>No products yet</h3><p>Add products through the Django admin at <code>/admin/</code>.</p></div>
+  {% endfor %}
+</div>
+{% endblock %}

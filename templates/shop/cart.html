@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Your cart | Simple Store{% endblock %}
+{% block content %}
+<h1>Your shopping cart</h1>
+{% if items %}
+  <div class="cart-list">
+  {% for item in items %}
+    <article class="cart-item">
+      <div class="cart-product"><strong>{{ item.product.name }}</strong><span class="muted">₹{{ item.product.price }} each</span></div>
+      <form class="quantity-form" method="post" action="{% url 'update_cart' item.product.id %}">
+        {% csrf_token %}<label>Qty <input type="number" name="quantity" min="0" max="{{ item.product.stock }}" value="{{ item.quantity }}"></label>
+        <button class="button secondary" type="submit">Update</button>
+      </form>
+      <strong>₹{{ item.line_total }}</strong>
+      <form method="post" action="{% url 'remove_from_cart' item.product.id %}">
+        {% csrf_token %}<button class="text-button" type="submit">Remove</button>
+      </form>
+    </article>
+  {% endfor %}
+  </div>
+  <div class="cart-summary"><h2>Total: ₹{{ total }}</h2><a class="button" href="{% url 'checkout' %}">Proceed to checkout</a></div>
+{% else %}
+  <div class="empty-state"><h2>Your cart is empty</h2><p>Discover products to get started.</p><a class="button" href="{% url 'product_list' %}">Browse products</a></div>
+{% endif %}
+{% endblock %}

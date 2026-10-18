@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Log in | Simple Store{% endblock %}
+{% block content %}
+<div class="auth-wrap"><form class="form-card" method="post">
+  {% csrf_token %}<h1>Welcome back</h1>
+  {% if form.errors %}<div class="form-errors">Your username or password was incorrect.</div>{% endif %}
+  <label>Username<input type="text" name="username" autocomplete="username" required autofocus></label>
+  <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+  <input type="hidden" name="next" value="{{ next }}">
+  <button class="button" type="submit">Log in</button>
+  <p class="muted">New here? <a href="{% url 'register' %}">Create an account</a></p>
+</form></div>
+{% endblock %}

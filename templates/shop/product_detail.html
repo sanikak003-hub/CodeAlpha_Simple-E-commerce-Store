@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} | Simple Store{% endblock %}
+{% block content %}
+<div class="detail-layout">
+  <div class="detail-image">
+    {% if product.image_url %}<img src="{{ product.image_url }}" alt="{{ product.name }}">
+    {% else %}<div class="image-placeholder">No image</div>{% endif %}
+  </div>
+  <section class="detail-info">
+    <p class="eyebrow">PRODUCT DETAILS</p>
+    <h1>{{ product.name }}</h1>
+    <p class="price large">₹{{ product.price }}</p>
+    <p>{{ product.description }}</p>
+    <p class="muted">{% if product.stock %}{{ product.stock }} available{% else %}Out of stock{% endif %}</p>
+    <form method="post" action="{% url 'add_to_cart' product.id %}">
+      {% csrf_token %}<button class="button" type="submit" {% if product.stock == 0 %}disabled{% endif %}>Add to cart</button>
+    </form>
+    <a class="text-link" href="{% url 'product_list' %}">← Back to shop</a>
+  </section>
+</div>
+{% endblock %}

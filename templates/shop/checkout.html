@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Checkout | Simple Store{% endblock %}
+{% block content %}
+<h1>Checkout</h1>
+<div class="checkout-layout">
+  <form class="form-card" method="post">
+    {% csrf_token %}
+    <h2>Delivery details</h2>
+    <label>Full name<input name="full_name" required maxlength="160" value="{{ request.user.get_full_name }}"></label>
+    <label>Delivery address<textarea name="address" required rows="4"></textarea></label>
+    <label>Phone number<input name="phone" required type="tel" maxlength="30"></label>
+    <p class="muted">Demo checkout only. No payment is collected.</p>
+    <button class="button" type="submit">Place order</button>
+  </form>
+  <aside class="summary-card"><h2>Order summary</h2>
+    {% for item in items %}<p>{{ item.product.name }} × {{ item.quantity }} <strong>₹{{ item.line_total }}</strong></p>{% endfor %}
+    <hr><h3>Total: ₹{{ total }}</h3>
+  </aside>
+</div>
+{% endblock %}

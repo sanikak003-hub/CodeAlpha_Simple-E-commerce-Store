@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Register | Simple Store{% endblock %}
+{% block content %}
+<div class="auth-wrap"><form class="form-card" method="post">
+  {% csrf_token %}<h1>Create account</h1>
+  {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+  {% for field in form %}
+    <label>{{ field.label }}{{ field }}
+      {% if field.errors %}<span class="field-error">{{ field.errors|striptags }}</span>{% endif %}
+    </label>
+  {% endfor %}
+  <button class="button" type="submit">Register</button>
+  <p class="muted">Already registered? <a href="{% url 'login' %}">Log in</a></p>
+</form></div>
+{% endblock %}
